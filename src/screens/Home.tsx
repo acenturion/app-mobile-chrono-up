@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, Text, View} from "react-native";
 import Button from "@/components/Button";
 
@@ -17,6 +17,12 @@ function Home() {
   const handleOnPressReset = () => {
     console.log("You press the button!")
   }
+
+  useEffect(() => {
+    setTimeout(() => {
+      setTimer((prev => prev + 1))
+    }, 1000)
+  }, [timer])
 
   /* Mostrar un cronometro por pantalla, que tenga la siguiente funcionalidad: Inicio, Pausa, Resumir la pausa, Lapso y Reiniciar.*/
 
