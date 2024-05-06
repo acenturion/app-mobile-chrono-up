@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import React, {useEffect, useState} from "react";
+import {FlatList, StyleSheet, Text, View} from "react-native";
 import Button from "@/components/Button";
-import { formatTime } from "@/utils/timer-utils";
+import {formatTime} from "@/utils/timer-utils";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface ChronoState {
   isPaused: boolean;
@@ -9,7 +10,16 @@ interface ChronoState {
   isReset: boolean;
 }
 
-type Lap = number[];
+interface Lap {
+  id: number,
+  value: number,
+}
+
+interface Execution {
+  id: number;
+  date: Date,
+  laps: Lap[]
+}
 
 const Chronomether = () => {
   const [timer, setTimer] = useState(0);
@@ -18,16 +28,16 @@ const Chronomether = () => {
     isStarted: false,
     isReset: true,
   });
-  const [laps, setLaps] = useState<Lap>([]);
+  const [laps, setLaps] = useState<Lap[]>([]);
 
   const handleOnPressStart = () => {
     console.log("Start press!");
-    setChronoState({ isStarted: true, isPaused: false, isReset: false });
+    setChronoState({isStarted: true, isPaused: false, isReset: false});
   };
 
   const handleOnPressPause = () => {
     console.log("Pause Press!");
-    setChronoState({ ...chronoState, isPaused: true, isStarted: false, isReset: false });
+    setChronoState({...chronoState, isPaused: true, isStarted: false, isReset: false});
   };
 
   const handleOnPressReset = () => {
@@ -39,12 +49,48 @@ const Chronomether = () => {
       isStarted: false,
       isPaused: true,
     });
+    if (laps.length > 0) {
+      const execution: Execution = {
+        id: Math.random(),
+        date: new Date(),
+        laps: laps,
+      }
+
+      storeData(execution);
+    }
     setLaps([]);
   };
 
   const handleOnPressLap = () => {
     console.log("Lap Press!");
-    setLaps([...laps, timer]);
+    const newLap: Lap = {
+      id: laps.length + 1,
+      value: timer,
+    }
+    setLaps([...laps, newLap]);
+  };
+
+  const handlePressGetData = async () => {
+    console.log("Obteniendo data del storage");
+    const result = await getData();
+    console.log(result);
+  };
+
+
+  const storeData = (value: Execution) => {
+    const jsonValue = JSON.stringify(value);
+    AsyncStorage.setItem('executions', jsonValue).then(r =>
+      console.log("guardado exitosamente")
+    );
+  };
+
+  const getData = async (): Promise<Execution[] | undefined> => {
+    try {
+      const jsonValue = await AsyncStorage.getItem('executions');
+      return jsonValue != null ? JSON.parse(jsonValue) as Execution[] : undefined;
+    } catch (e) {
+      // error reading value
+    }
   };
 
   useEffect(() => {
@@ -68,32 +114,32 @@ const Chronomether = () => {
     <View style={styles.container}>
       <Text style={styles.text}>{formatTime(timer)}</Text>
       {showStart ? (
-        <Button title="Start" onPress={handleOnPressStart} />
+        <Button title="Start" onPress={handleOnPressStart}/>
       ) : (
-        <Button title="Pause" onPress={handleOnPressPause} />
+        <Button title="Pause" onPress={handleOnPressPause}/>
       )}
 
       {showResetAndLap && (
-          <Button title="Reset" onPress={handleOnPressReset} />
+        <Button title="Reset" onPress={handleOnPressReset}/>
+      )}
+
+      <Button title="Lap" onPress={handleOnPressLap}/>
+      <Button title="Mostrar laps" onPress={handlePressGetData}/>
+
+      {showResetAndLap && <Text>Laps: </Text>}
+
+      <FlatList
+        data={laps}
+        renderItem={({item}) => (
+          <Text>{`Lapso ${item.id}: ${formatTime(
+            item.value
+          )}`}</Text>
         )}
-
-        <Button title="Lap" onPress={handleOnPressLap} />
-
-        {showResetAndLap && <Text>Laps: </Text> }
-
-        <FlatList
-          data={laps}
-          renderItem={({ item, index }) => (
-            <Text>{`Lapso ${index + 1}: ${formatTime(
-              item
-            )}`}</Text>
-          )}
-          keyExtractor={(_, index) => index.toString()}
-        />
+        keyExtractor={(_, index) => index.toString()}
+      />
     </View>
   );
 };
-
 
 
 const styles = StyleSheet.create({
@@ -102,6 +148,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+    marginTop: 16
   },
   text: {
     marginBottom: 16,
