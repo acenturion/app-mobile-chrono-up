@@ -2,7 +2,9 @@ import React, {useEffect, useState} from "react";
 import {FlatList, StyleSheet, Text, View} from "react-native";
 import Button from "@/components/Button";
 import {formatTime} from "@/utils/timer-utils";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Lap } from "@/model/Lap";
+import { Execution } from "@/model/Execution";
+import { getData, storeData } from "@/services/Storage.service";
 
 interface ChronoState {
   isPaused: boolean;
@@ -10,18 +12,7 @@ interface ChronoState {
   isReset: boolean;
 }
 
-interface Lap {
-  id: number,
-  value: number,
-}
-
-interface Execution {
-  id: number;
-  date: Date,
-  laps: Lap[]
-}
-
-const Chronomether = () => {
+const Chronometer = () => {
   const [timer, setTimer] = useState(0);
   const [chronoState, setChronoState] = useState<ChronoState>({
     isPaused: false,
@@ -76,23 +67,6 @@ const Chronomether = () => {
     console.log(result);
   };
 
-
-  const storeData = (value: Execution) => {
-    const jsonValue = JSON.stringify(value);
-    AsyncStorage.setItem('executions', jsonValue).then(r =>
-      console.log("guardado exitosamente")
-    );
-  };
-
-  const getData = async (): Promise<Execution[] | undefined> => {
-    try {
-      const jsonValue = await AsyncStorage.getItem('executions');
-      return jsonValue != null ? JSON.parse(jsonValue) as Execution[] : undefined;
-    } catch (e) {
-      // error reading value
-    }
-  };
-
   useEffect(() => {
     let interval: any;
 
@@ -105,7 +79,6 @@ const Chronomether = () => {
     return () => clearInterval(interval);
   }, [timer, chronoState.isStarted]);
 
-  /* Mostrar un cronometro por pantalla, que tenga la siguiente funcionalidad: Inicio, Pausa, Resumir la pausa, Lapso y Reiniciar.*/
   const showStart = chronoState.isPaused || chronoState.isReset;
 
   const showResetAndLap = chronoState.isPaused || chronoState.isStarted;
@@ -155,4 +128,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Chronomether;
+export default Chronometer;

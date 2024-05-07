@@ -5,19 +5,25 @@ import Button from "@/components/Button";
 const LoginScreen = () => {
   const navigation = useNavigation<any>();
 
-  const handleOnPressLogin = () => {
-    return navigation.navigate("Home");
+  const handleOnPressChrono = () => {
+    return navigation.navigate("Chrono");
   }
+
+  const handleOnPressTimer = () => {
+    return navigation.navigate("Timer");
+  }
+
+
   return (
     <View style={styles.container}>
       <Text>Aprete el boton para ingresar</Text>
       <Button
         title={"Chronometro"}
-        onPress={handleOnPressLogin}
+        onPress={handleOnPressChrono}
       />
       <Button
         title={"Temporizador"}
-        onPress={handleOnPressLogin}
+        onPress={handleOnPressTimer}
       />
     </View>
   );

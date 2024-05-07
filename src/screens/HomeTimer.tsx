@@ -1,10 +1,10 @@
-import Chronomether from "@/components/Cronomether";
-import {StyleSheet, Text, View} from "react-native";
+import Timer from "@/components/Timer";
+import {StyleSheet, View} from "react-native";
 
-const HomeScreen = () => {
+const HomeTimerScreen = () => {
   return (
     <View style={styles.container}>
-      <Chronomether></Chronomether>
+      <Timer></Timer>
     </View>
   );
 }
@@ -21,6 +21,6 @@ const styles = StyleSheet.create({
   }
 });
 
-export default HomeScreen;
+export default HomeTimerScreen;
 
 
