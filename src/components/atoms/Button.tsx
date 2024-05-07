@@ -1,14 +1,15 @@
 import React from 'react';
-import { Pressable, Text, StyleSheet } from 'react-native';
+import {Pressable, Text, StyleSheet, StyleProp} from 'react-native';
 
 interface ButtonProps {
   onPress: () => void;
   title: string;
+  style?: StyleProp<any>;
 }
 
-const Button: React.FC<ButtonProps> = ({ onPress, title }) => {
+const Button: React.FC<ButtonProps> = ({ onPress, title, style }) => {
   return (
-    <Pressable style={styles.button} onPress={onPress}>
+    <Pressable onPress={onPress} style={[styles.button, style]}>
       <Text style={styles.buttonText}>{title}</Text>
     </Pressable>
   );
@@ -16,7 +17,6 @@ const Button: React.FC<ButtonProps> = ({ onPress, title }) => {
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: 'blue',
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
@@ -25,6 +25,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
     textAlign: 'center',
+    fontSize: 16
   },
 });
 

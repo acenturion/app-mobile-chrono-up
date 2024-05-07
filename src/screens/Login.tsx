@@ -1,6 +1,6 @@
-import {StyleSheet, Text, View} from "react-native";
 import {useNavigation} from "@react-navigation/core";
-import Button from "@/components/Button";
+import Button from "@/components/atoms/Button";
+import ScreenLayout from "@/components/layouts/ScreenLayout";
 
 const LoginScreen = () => {
   const navigation = useNavigation<any>();
@@ -15,31 +15,20 @@ const LoginScreen = () => {
 
 
   return (
-    <View style={styles.container}>
-      <Text>Aprete el boton para ingresar</Text>
+    <ScreenLayout>
       <Button
         title={"Chronometro"}
         onPress={handleOnPressChrono}
+        style={{backgroundColor: "blue"}}
       />
       <Button
         title={"Temporizador"}
         onPress={handleOnPressTimer}
+        style={{backgroundColor: "green"}}
       />
-    </View>
+    </ScreenLayout>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  text: {
-    marginBottom: 16,
-  }
-});
 
 export default LoginScreen;
 

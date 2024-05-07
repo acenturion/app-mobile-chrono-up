@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Alert, StyleSheet, Text, Vibration, View} from "react-native";
-import Button from "@/components/Button";
+import Button from "@/components/atoms/Button";
 import {formatTime} from "@/utils/timer-utils";
 
 interface TimerState {

@@ -1,26 +1,13 @@
-import Timer from "@/components/Timer";
-import {StyleSheet, View} from "react-native";
+import Timer from "@/components/organism/Timer";
+import ScreenLayout from "@/components/layouts/ScreenLayout";
 
 const HomeTimerScreen = () => {
   return (
-    <View style={styles.container}>
+    <ScreenLayout>
       <Timer></Timer>
-    </View>
+    </ScreenLayout>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  text: {
-    marginBottom: 16,
-  }
-});
-
 export default HomeTimerScreen;
 
 
