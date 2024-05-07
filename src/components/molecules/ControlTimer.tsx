@@ -8,34 +8,18 @@ interface ControlType {
   onStart: () => void,
   onPause: () => void,
   onReset: () => void,
-  onLap: () => void,
 }
 
-function Control(
+function ControlTimer(
   {
     showStart,
     showReset,
     onStart,
     onPause,
     onReset,
-    onLap,
   }: ControlType) {
   return (
     <View style={styles.container}>
-      {showReset
-        ? (<Button
-          title="Reiniciar"
-          onPress={onReset}
-          style={{backgroundColor: "grey"}}
-        />)
-        : (
-          <Button
-            title="Vuelta"
-            onPress={onLap}
-            style={{backgroundColor: "grey"}}
-          />
-        )}
-
       {showStart
         ? (<Button
           title="Inicio"
@@ -48,6 +32,13 @@ function Control(
             style={{backgroundColor: "blue"}}
           />
         )}
+      {showReset && (
+        <Button
+          title="Reiniciar"
+          onPress={onReset}
+          style={{backgroundColor: "grey"}}
+        />
+      )}
     </View>
   );
 }
@@ -61,4 +52,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Control;
+export default ControlTimer;

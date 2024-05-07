@@ -5,12 +5,12 @@ import {storeData} from "@/services/Storage.service";
 import {ChronoState} from "@/model/ChonoState";
 import {ChronoContextType} from "@/model/ChronoContextType";
 
-const TimerContext = createContext<ChronoContextType | null>(null)
+const ChronoContext = createContext<ChronoContextType | null>(null)
 
-export function useTimer(): ChronoContextType {
-  const context = useContext(TimerContext);
+export function useChrono(): ChronoContextType {
+  const context = useContext(ChronoContext);
   if (!context) {
-    throw new Error("useRates must be used within an TimerProvider.");
+    throw new Error("useRates must be used within an ChronoProvider.");
   }
   return context;
 }
@@ -88,9 +88,9 @@ const TimerProvider = ({children}: PropsWithChildren) => {
   }
 
   return (
-    <TimerContext.Provider value={contextValue}>
+    <ChronoContext.Provider value={contextValue}>
       {children}
-    </TimerContext.Provider>
+    </ChronoContext.Provider>
   );
 }
 

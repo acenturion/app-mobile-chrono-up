@@ -1,10 +1,10 @@
 import React from "react";
 import {FlatList, StyleSheet, Text, View} from "react-native";
-import {useTimer} from "@/context/ChronoContext";
+import {useChrono} from "@/context/ChronoContext";
 import WatchDisplay from "@/components/molecules/WatchDisplay";
 import LapItemList from "@/components/molecules/LapItemList";
 import Title from "@/components/atoms/Title";
-import Control from "@/components/molecules/Control";
+import ControlChrono from "@/components/molecules/ControlChrono";
 
 
 const Chronometer = () => {
@@ -16,7 +16,7 @@ const Chronometer = () => {
     onPause,
     onReset,
     onLap,
-  } = useTimer();
+  } = useChrono();
 
   const showStart = chronoState.isPaused || chronoState.isReset;
   const showReset = chronoState.isPaused && !chronoState.isReset;
@@ -25,7 +25,7 @@ const Chronometer = () => {
     <View style={styles.container}>
       <WatchDisplay timer={timer}/>
 
-      <Control
+      <ControlChrono
         showStart={showStart}
         showReset={showReset}
         onStart={onStart}

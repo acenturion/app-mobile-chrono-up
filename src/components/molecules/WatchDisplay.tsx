@@ -13,7 +13,7 @@ function WatchDisplay({timer}: { timer: number }) {
 const styles = StyleSheet.create({
   container: {
     padding: 16,
-    height: 72*4,
+    height: 72*3,
     width: "100%",
     justifyContent: "center",
     alignItems: "center",

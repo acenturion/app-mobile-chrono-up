@@ -4,7 +4,7 @@ import ScreenLayout from "@/components/layouts/ScreenLayout";
 const HomeTimerScreen = () => {
   return (
     <ScreenLayout>
-      <Timer></Timer>
+      <Timer/>
     </ScreenLayout>
   );
 }
