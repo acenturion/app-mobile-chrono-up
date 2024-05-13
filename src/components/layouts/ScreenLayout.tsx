@@ -12,7 +12,7 @@ function ScreenLayout({children}: {children: React.ReactNode}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#2d2d2d',
+    backgroundColor: "black",
     alignItems: 'center',
     justifyContent: 'flex-start',
     padding: 16,

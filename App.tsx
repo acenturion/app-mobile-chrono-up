@@ -7,31 +7,35 @@ import HomeChronoScreen from "@/screens/HomeChrono";
 import HomeTimerScreen from "@/screens/HomeTimer";
 import ChronoProvider from "@/context/ChronoContext";
 import TimerProvider from "@/context/TimerContex";
+import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
+import HistoryChronoScreen from "@/screens/HistoryChrono";
 
 const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
+
 
 export default function App() {
   return (
     <NavigationContainer>
       <TimerProvider>
         <ChronoProvider>
-          <Stack.Navigator
-            initialRouteName="Login"
+          <Tab.Navigator
             screenOptions={{
+              headerTintColor: "white",
               headerStyle: {
-                backgroundColor: '#2d2d2d'
+                backgroundColor: "black"
               },
-              headerTintColor: '#fff',
-              headerTitleStyle: {
-                fontWeight: 'bold',
+              tabBarActiveTintColor: "white",
+              tabBarInactiveTintColor: "gray",
+              tabBarStyle: {
+                backgroundColor: "black"
               },
             }}
           >
-            <Stack.Screen name="Login" options={{title: "Inicio"}} component={LoginScreen}/>
-
-            <Stack.Screen name="Timer" options={{title: "Temporizador"}} component={HomeTimerScreen}/>
-            <Stack.Screen name="Chrono" options={{title: "Cronometro"}} component={HomeChronoScreen}/>
-          </Stack.Navigator>
+            <Tab.Screen name="Timer" options={{title: "Temporizador"}} component={HomeTimerScreen}/>
+            <Tab.Screen name="Chrono" options={{title: "Cronometro"}} component={HomeChronoScreen}/>
+            <Tab.Screen name="History" options={{title: "Historial"}} component={HistoryChronoScreen}/>
+          </Tab.Navigator>
         </ChronoProvider>
       </TimerProvider>
     </NavigationContainer>
