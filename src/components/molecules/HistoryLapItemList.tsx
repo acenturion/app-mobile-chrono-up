@@ -11,7 +11,6 @@ export interface LapHistoryItemInterface {
 }
 
 function LapHistoryItemList({date, id, laps = []}: LapHistoryItemInterface) {
-  console.log(date)
   return (
     <View style={styles.container}>
       <Text style={styles.text}>{`${formatDate(date)}`}</Text>
@@ -33,7 +32,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "#fff",
     alignItems: "flex-start",
     justifyContent: "flex-start",
-    width: "100%"
+    width: "100%",
   },
 
   item: {

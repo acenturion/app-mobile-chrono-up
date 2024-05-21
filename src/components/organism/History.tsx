@@ -5,6 +5,7 @@ import {clearData, getData} from "@/services/Storage.service";
 import Button from "@/components/atoms/Button";
 import LapHistoryItemList from "@/components/molecules/HistoryLapItemList";
 import {Lap} from "@/model/Lap";
+import {useNavigation} from "@react-navigation/core";
 
 interface HistoryLap {
   date: string;
@@ -13,23 +14,27 @@ interface HistoryLap {
 }
 
 function History() {
-
+  const navigation = useNavigation();
   // TODO hacer contexto historial :D
   const [historyLap, setHistoryLap] = useState<HistoryLap[]>([]);
 
   useEffect(() => {
-    async function getHistoryLaps() {
-      const result: HistoryLap[]  = await getData();
-      setHistoryLap(result)
-    }
+    navigation.addListener('focus', () => {
+      console.log('focus');
+      getHistoryRecord();
+    });
+  }, []);
 
-    getHistoryLaps();
-    //TODO FIX RENDER :)
-  }, [])
+  const getHistoryRecord = async () => {
+    const result: HistoryLap[]  = await getData();
+    setHistoryLap(result)
+  }
+
 
   const handleOnPressClear = () => {
     console.log("Limpiando chache...")
     clearData()
+    getHistoryRecord();
   }
   return (
     <View style={styles.container}>
@@ -55,7 +60,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "flex-start",
-    width: "100%"
+    width: "100%",
   },
   title:{
     width: "100%",
