@@ -1,8 +1,6 @@
-import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import {NavigationContainer} from "@react-navigation/native";
 
 
-import LoginScreen from "@/screens/Login";
 import HomeChronoScreen from "@/screens/HomeChrono";
 import HomeTimerScreen from "@/screens/HomeTimer";
 import ChronoProvider from "@/context/ChronoContext";
@@ -10,11 +8,11 @@ import TimerProvider from "@/context/TimerContex";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import HistoryChronoScreen from "@/screens/HistoryChrono";
 
-const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 
 export default function App() {
+  console.log(process.env.EXPO_PUBLIC_VERSION_APP)
   return (
     <NavigationContainer>
       <TimerProvider>

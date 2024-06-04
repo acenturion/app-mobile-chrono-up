@@ -20,7 +20,6 @@ function History() {
 
   useEffect(() => {
     navigation.addListener('focus', () => {
-      console.log('focus');
       getHistoryRecord();
     });
   }, []);
