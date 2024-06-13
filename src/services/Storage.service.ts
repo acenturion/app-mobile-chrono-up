@@ -1,10 +1,8 @@
 import { Execution } from "@/model/Execution";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { initializeApp } from "firebase/app";
 import {
   collection,
   getDocs,
-  getFirestore,
   query,
   where,
   limit,
@@ -13,21 +11,7 @@ import {
 } from "firebase/firestore";
 import * as SecureStore from "expo-secure-store";
 import { Chrono } from "@/model/Chrono";
-
-const firebaseConfig = {
-  apiKey: process.env.EXPO_PUBLIC_FIREBASE_API_KEY,
-  authDomain: process.env.EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.EXPO_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.EXPO_PUBLIC_FIREBASE_APP_ID,
-  measurementId: process.env.EXPO_PUBLIC_FIREBASE_MEASUREMENT_ID,
-};
-
-console.log(firebaseConfig);
-
-const firebase = initializeApp(firebaseConfig);
-const firestore = getFirestore(firebase);
+import {db} from "@/firebase/config";
 
 const EXECUTIONS_KEY = "executions";
 
@@ -62,7 +46,7 @@ const saveNetworkData = async (
   try {
     if (querySnapshot?.empty) { //Non exists document
       console.log("No matching document found");
-      const collectionRef = collection(firestore, COLLECTION_NAME); // Referencia a la colección
+      const collectionRef = collection(db, COLLECTION_NAME); // Referencia a la colección
       await addDoc(collectionRef, {
         userId: userId,
         executions: [execution],
@@ -97,7 +81,7 @@ const getNetworkDataById = async (userId: string): Promise<Chrono> => {
 
 const getReferenceNetworkDataById = async (userId: string) => {
   try {
-    const collectionRef = collection(firestore, COLLECTION_NAME);
+    const collectionRef = collection(db, COLLECTION_NAME);
     const qry = query(
       collectionRef,
       where(USER_ID_FIELD_NAME, "==", userId),
