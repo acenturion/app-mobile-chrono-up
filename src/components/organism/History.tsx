@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {FlatList, StyleSheet, Text, View} from "react-native";
 import Title from "@/components/atoms/Title";
-import {clearData, getData} from "@/services/Storage.service";
+import {clearData, getByUserId} from "@/services/Storage.service";
 import Button from "@/components/atoms/Button";
 import LapHistoryItemList from "@/components/molecules/HistoryLapItemList";
 import {Lap} from "@/model/Lap";
 import {useNavigation} from "@react-navigation/core";
 
-interface HistoryLap {
+export interface HistoryLap {
   date: string;
   id: number;
   laps: Lap[]
@@ -25,7 +25,7 @@ function History() {
   }, []);
 
   const getHistoryRecord = async () => {
-    const result: HistoryLap[]  = await getData();
+    const result: HistoryLap[]  = await getByUserId('') as unknown as HistoryLap[]; //TODO: UserID
     setHistoryLap(result)
   }
 

@@ -1,11 +1,19 @@
-import {createContext, PropsWithChildren, useContext, useEffect, useState} from "react";
-import {Lap} from "@/model/Lap";
-import {Execution} from "@/model/Execution";
-import {storeData} from "@/services/Storage.service";
-import {ChronoState} from "@/model/ChonoState";
-import {ChronoContextType} from "@/model/ChronoContextType";
+import {
+  createContext,
+  PropsWithChildren,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { Lap } from "@/model/Lap";
+import { Execution } from "@/model/Execution";
+import { saveByUserId } from "@/services/Storage.service";
+import { ChronoState } from "@/model/ChonoState";
+import { ChronoContextType } from "@/model/ChronoContextType";
+import * as Geolocation from "expo-location";
+import { Location } from "@/model/Location";
 
-const ChronoContext = createContext<ChronoContextType | null>(null)
+const ChronoContext = createContext<ChronoContextType | null>(null);
 
 export function useChrono(): ChronoContextType {
   const context = useContext(ChronoContext);
@@ -15,7 +23,7 @@ export function useChrono(): ChronoContextType {
   return context;
 }
 
-const TimerProvider = ({children}: PropsWithChildren) => {
+const TimerProvider = ({ children }: PropsWithChildren) => {
   const [timer, setTimer] = useState<number>(0);
   const [chronoState, setChronoState] = useState<ChronoState>({
     isPaused: false,
@@ -23,6 +31,23 @@ const TimerProvider = ({children}: PropsWithChildren) => {
     isReset: true,
   });
   const [laps, setLaps] = useState<Lap[]>([]);
+  const [location, setLocation] = useState<Location>();
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Geolocation.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        console.log("Permission to access location was denied");
+        return;
+      }
+
+      let geolocation = await Geolocation.getCurrentPositionAsync({});
+      setLocation({
+        latitude: geolocation.coords.latitude,
+        longitude: geolocation.coords.longitude,
+      });
+    })();
+  }, []);
 
   useEffect(() => {
     let interval: any;
@@ -50,31 +75,32 @@ const TimerProvider = ({children}: PropsWithChildren) => {
         id: Math.random(),
         date: new Date(),
         laps: laps,
-      }
+        location: location
+      };
 
-      storeData(execution);
+      saveByUserId("12345000", execution); //TODO: Replace for userId
     }
     setLaps([]);
   };
 
   const onLap = () => {
     console.log("Lap Press!");
-    if(chronoState.isReset || chronoState.isPaused) return;
+    if (chronoState.isReset || chronoState.isPaused) return;
     const newLap: Lap = {
       id: laps.length + 1,
       value: timer,
-    }
+    };
     setLaps([...laps, newLap]);
   };
 
   const onPause = () => {
     console.log("Pause Press!");
-    setChronoState({isPaused: true, isStarted: false, isReset: false});
+    setChronoState({ isPaused: true, isStarted: false, isReset: false });
   };
 
   const onStart = () => {
     console.log("Start press!");
-    setChronoState({isStarted: true, isPaused: false, isReset: false});
+    setChronoState({ isStarted: true, isPaused: false, isReset: false });
   };
 
   const contextValue: ChronoContextType = {
@@ -85,13 +111,13 @@ const TimerProvider = ({children}: PropsWithChildren) => {
     onPause,
     onReset,
     onLap,
-  }
+  };
 
   return (
     <ChronoContext.Provider value={contextValue}>
       {children}
     </ChronoContext.Provider>
   );
-}
+};
 
 export default TimerProvider;

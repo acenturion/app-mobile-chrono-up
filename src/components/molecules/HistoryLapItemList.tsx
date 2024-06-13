@@ -1,19 +1,13 @@
 import React from 'react';
 import {FlatList, StyleSheet, Text, View} from "react-native";
-import {Lap} from "@/model/Lap";
 import LapItemList from "@/components/molecules/LapItemList";
 import {formatDate} from "@/utils/timer-utils";
+import { HistoryLap } from '../organism/History';
 
-export interface LapHistoryItemInterface {
-  date: Date,
-  id: number,
-  laps: Lap[]
-}
-
-function LapHistoryItemList({date, id, laps = []}: LapHistoryItemInterface) {
+function LapHistoryItemList({date, id, laps = []}: HistoryLap) {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>{`${formatDate(date)}`}</Text>
+      <Text style={styles.text}>{`${formatDate(new Date(date))}`}</Text>
       <FlatList
         data={laps}
         style={styles.item}
