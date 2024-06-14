@@ -7,6 +7,7 @@ import ChronoProvider from "@/context/ChronoContext";
 import TimerProvider from "@/context/TimerContex";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import HistoryChronoScreen from "@/screens/HistoryChrono";
+import Login from "@/screens/Login";
 
 const Tab = createBottomTabNavigator();
 
@@ -31,6 +32,7 @@ export default function App() {
             <Tab.Screen name="Timer" options={{title: "Temporizador"}} component={HomeTimerScreen}/>
             <Tab.Screen name="Chrono" options={{title: "Cronometro"}} component={HomeChronoScreen}/>
             <Tab.Screen name="History" options={{title: "Historial"}} component={HistoryChronoScreen}/>
+            <Tab.Screen name="Login" options={{title: "Log in"}} component={Login}/>
           </Tab.Navigator>
         </ChronoProvider>
       </TimerProvider>
