@@ -1,11 +1,12 @@
 import React from 'react';
 import {StyleSheet, Text, View} from "react-native";
 import {formatTime} from "@/utils/timer-utils";
+import { Lap } from '@/model/Lap';
 
-function LapItemList({id, value}: { id: number, value: number }) {
+function LapItemList({position, moment}: Lap) {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>{`Vuelta ${id}: ${formatTime(value)}`}</Text>
+      <Text style={styles.text}>{`Vuelta ${position}: ${formatTime(moment)}` }</Text>
     </View>
   );
 }

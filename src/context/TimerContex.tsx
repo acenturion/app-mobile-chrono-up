@@ -43,7 +43,6 @@ const TimerProvider = ({children}: PropsWithChildren) => {
   }, [timer])
 
   const onReset = () => {
-    console.log("Reset Press!");
     setTimer(TIMER_VALUE);
     setTimerState({
       isReset: true,
@@ -53,12 +52,10 @@ const TimerProvider = ({children}: PropsWithChildren) => {
   };
 
   const onPause = () => {
-    console.log("Pause Press!");
     setTimerState({isStarted: false, isPaused: true, isReset: false});
   };
 
   const onStart = () => {
-    console.log("Start press!");
     if(timer === 0){
       return onReset();
     }

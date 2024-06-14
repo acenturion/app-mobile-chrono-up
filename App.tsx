@@ -11,8 +11,6 @@ import HistoryChronoScreen from "@/screens/HistoryChrono";
 const Tab = createBottomTabNavigator();
 
 export default function App() {
-  console.log(process.env.EXPO_PUBLIC_VERSION_APP)
-  console.log(process.env.FIREBASE_API_KEY)
   return (
     <NavigationContainer>
       <TimerProvider>

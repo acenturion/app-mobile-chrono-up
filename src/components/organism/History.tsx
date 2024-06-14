@@ -1,22 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import {FlatList, StyleSheet, Text, View} from "react-native";
 import Title from "@/components/atoms/Title";
-import {clearData, getByUserId} from "@/services/Storage.service";
 import Button from "@/components/atoms/Button";
 import LapHistoryItemList from "@/components/molecules/HistoryLapItemList";
-import {Lap} from "@/model/Lap";
 import {useNavigation} from "@react-navigation/core";
-
-export interface HistoryLap {
-  date: string;
-  id: number;
-  laps: Lap[]
-}
+import { getByUserId, clearByUserId } from '@/services/RemoteStorage.service';
+import { Execution } from '@/model/Execution';
 
 function History() {
   const navigation = useNavigation();
   // TODO hacer contexto historial :D
-  const [historyLap, setHistoryLap] = useState<HistoryLap[]>([]);
+  const [historyLap, setHistoryLap] = useState<Execution[]>([]);
 
   useEffect(() => {
     navigation.addListener('focus', () => {
@@ -25,14 +19,14 @@ function History() {
   }, []);
 
   const getHistoryRecord = async () => {
-    const result: HistoryLap[]  = await getByUserId('') as unknown as HistoryLap[]; //TODO: UserID
+    const result: Execution[]  = await getByUserId('') //TODO: UserID
     setHistoryLap(result)
   }
 
 
   const handleOnPressClear = () => {
-    console.log("Limpiando chache...")
-    clearData()
+    console.log("Limpiando Ejecuciones...")
+    clearByUserId('') //TODO: UserID
     getHistoryRecord();
   }
   return (

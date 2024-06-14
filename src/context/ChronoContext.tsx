@@ -7,11 +7,12 @@ import {
 } from "react";
 import { Lap } from "@/model/Lap";
 import { Execution } from "@/model/Execution";
-import { saveByUserId } from "@/services/Storage.service";
 import { ChronoState } from "@/model/ChonoState";
 import { ChronoContextType } from "@/model/ChronoContextType";
 import * as Geolocation from "expo-location";
 import { Location } from "@/model/Location";
+import uuid from 'react-native-uuid';
+import { saveByUserId } from "@/services/RemoteStorage.service";
 
 const ChronoContext = createContext<ChronoContextType | null>(null);
 
@@ -62,7 +63,6 @@ const TimerProvider = ({ children }: PropsWithChildren) => {
   }, [timer, chronoState.isStarted]);
 
   const onReset = () => {
-    console.log("Reset Press!");
     setTimer(0);
     setChronoState({
       isReset: true,
@@ -72,7 +72,7 @@ const TimerProvider = ({ children }: PropsWithChildren) => {
 
     if (laps.length > 0) {
       const execution: Execution = {
-        id: Math.random(),
+        id:  uuid.v4().toString(),
         date: new Date(),
         laps: laps,
         location: location
@@ -84,22 +84,21 @@ const TimerProvider = ({ children }: PropsWithChildren) => {
   };
 
   const onLap = () => {
-    console.log("Lap Press!");
     if (chronoState.isReset || chronoState.isPaused) return;
     const newLap: Lap = {
-      id: laps.length + 1,
-      value: timer,
-    };
+      id: uuid.v4().toString(),
+      position: laps.length + 1 ?? 0,
+      moment: new Date()
+    }
+
     setLaps([...laps, newLap]);
   };
 
   const onPause = () => {
-    console.log("Pause Press!");
     setChronoState({ isPaused: true, isStarted: false, isReset: false });
   };
 
   const onStart = () => {
-    console.log("Start press!");
     setChronoState({ isStarted: true, isPaused: false, isReset: false });
   };
 

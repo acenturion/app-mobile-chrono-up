@@ -1,13 +1,13 @@
 import React from 'react';
 import {FlatList, StyleSheet, Text, View} from "react-native";
 import LapItemList from "@/components/molecules/LapItemList";
-import {formatDate} from "@/utils/timer-utils";
-import { HistoryLap } from '../organism/History';
+import {formatDateTime} from "@/utils/timer-utils";
+import { Execution } from '@/model/Execution';
 
-function LapHistoryItemList({date, id, laps = []}: HistoryLap) {
+function LapHistoryItemList({date, laps = [], location, id}: Execution) {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>{`${formatDate(new Date(date))}`}</Text>
+      {<Text style={styles.text}>{`Ejecucion ${id} - ${formatDateTime(date as Date)} - Ubicacion: [${location?.latitude} - ${location?.longitude}`}</Text>} 
       <FlatList
         data={laps}
         style={styles.item}

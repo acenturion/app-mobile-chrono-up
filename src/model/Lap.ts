@@ -1,4 +1,5 @@
 export interface Lap {
-    id: number,
-    value: number,
+    id: string,
+    position: number,
+    moment: Date,
 }

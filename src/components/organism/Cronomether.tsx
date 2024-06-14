@@ -38,7 +38,7 @@ const Chronometer = () => {
         data={laps}
         style={styles.list}
         renderItem={({item}) => <LapItemList {...item} />}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item?.id?.toString()}
       />
     </View>
   );
