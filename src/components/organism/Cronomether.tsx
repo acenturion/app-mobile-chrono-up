@@ -5,6 +5,7 @@ import WatchDisplay from "@/components/molecules/WatchDisplay";
 import LapItemList from "@/components/molecules/LapItemList";
 import Title from "@/components/atoms/Title";
 import ControlChrono from "@/components/molecules/ControlChrono";
+import {useUser} from "@/context/UserContext";
 
 
 const Chronometer = () => {
@@ -18,8 +19,16 @@ const Chronometer = () => {
     onLap,
   } = useChrono();
 
+  const {
+    user
+  } = useUser();
+
   const showStart = chronoState.isPaused || chronoState.isReset;
   const showReset = chronoState.isPaused && !chronoState.isReset;
+
+  const handleOnReset = () => {
+    onReset(user.id);
+  }
 
   return (
     <View style={styles.container}>
@@ -32,7 +41,7 @@ const Chronometer = () => {
         showReset={showReset}
         onStart={onStart}
         onPause={onPause}
-        onReset={onReset}
+        onReset={handleOnReset}
         onLap={onLap}
       />
 

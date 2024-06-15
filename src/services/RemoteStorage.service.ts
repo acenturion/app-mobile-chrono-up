@@ -1,4 +1,4 @@
-import { Execution } from "@/model/Execution";
+import {Execution} from "@/model/Execution";
 import {
   collection,
   getDocs,
@@ -9,11 +9,10 @@ import {
   addDoc,
   Timestamp,
 } from "firebase/firestore";
-import { Chrono } from "@/model/Chrono";
+import {Chrono} from "@/model/Chrono";
 import {db} from "@/firebase/config";
-import { Lap } from "@/model/Lap";
-import { Location } from "@/model/Location";
-import {HistoryLap} from "@/model/HistoryLap";
+import {Lap} from "@/model/Lap";
+import {Location} from "@/model/Location";
 
 const COLLECTION_NAME = "history";
 const USER_ID_FIELD_NAME = "userId";
@@ -35,15 +34,15 @@ export const saveByUserId = async (
   userId: string,
   execution: Execution
 ): Promise<void> => {
-  return await saveNetworkData("12345000", execution);
+  return await saveNetworkData(userId, execution);
 };
 
 export const getByUserId = async (userId: string) => {
-  return (await getNetworkDataById("12345000"))?.executions ?? [];
+  return (await getNetworkDataById(userId))?.executions ?? [];
 };
 
 export const clearByUserId = async (userId: string): Promise<void> => {
-  return await clearNetworkData("12345000")
+  return await clearNetworkData(userId)
 };
 
 
@@ -59,7 +58,7 @@ const saveNetworkData = async (
       await addDoc(collectionRef, {
         userId: userId,
         executions: [execution],
-      }); 
+      });
       console.log(`UserId: ${userId} has been created successfully`)
     } else {
       const docRef = querySnapshot.docs[0]?.ref;
@@ -104,18 +103,20 @@ const getNetworkDataById = async (userId: string): Promise<Chrono> => {
       const executions: Execution[] = data?.executions?.map((exec: FirebaseExecution): Execution => {
         const laps: Lap[] = exec.laps?.map((lap: FirebaseLap): Lap => {
           return {
-          id: lap.id,
-          position: lap.position,
-          moment: new Timestamp(exec.date.seconds, exec.date.nanoseconds).toDate(),
-        }}) ?? []
+            id: lap.id,
+            position: lap.position,
+            moment: new Timestamp(exec.date.seconds, exec.date.nanoseconds).toDate(),
+          }
+        }) ?? []
 
         return {
-        id: exec.id,
-        date: new Timestamp(exec.date.seconds, exec.date.nanoseconds).toDate(),
-        laps: laps,
-        location: exec.location
-      
-      }}) ?? []
+          id: exec.id,
+          date: new Timestamp(exec.date.seconds, exec.date.nanoseconds).toDate(),
+          laps: laps,
+          location: exec.location
+
+        }
+      }) ?? []
 
       return {
         userId: data.userId,

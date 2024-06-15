@@ -8,7 +8,7 @@ const TimerContext = createContext<TimerContextType | null>(null)
 export function useTimer(): TimerContextType {
   const context = useContext(TimerContext);
   if (!context) {
-    throw new Error("useRates must be used within an TimerProvider.");
+    throw new Error("useTimer must be used within an TimerProvider.");
   }
   return context;
 }

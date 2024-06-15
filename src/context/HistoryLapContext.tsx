@@ -10,19 +10,21 @@ import {clearByUserId, getByUserId} from "@/services/RemoteStorage.service";
 import {HistoryLap} from "@/model/HistoryLap";
 import {useNavigation} from "@react-navigation/core";
 import {Execution} from "@/model/Execution";
+import {useUser} from "@/context/UserContext";
 
 const HistoryLapContext = createContext<HistoryLapContextType | null>(null);
 
 export function useHistoryLap(): HistoryLapContextType {
   const context = useContext(HistoryLapContext);
   if (!context) {
-    throw new Error("useRates must be used within an History lap Provider.");
+    throw new Error("useHistoryLap must be used within an HistoryLapProvider.");
   }
   return context;
 }
 
 const HistoryLapProvider = ({children}: PropsWithChildren) => {
   const navigation = useNavigation();
+  const {user} = useUser();
   const [historyLap, setHistoryLap] = useState<HistoryLap[]>([]);
 
   useEffect(() => {
@@ -37,12 +39,12 @@ const HistoryLapProvider = ({children}: PropsWithChildren) => {
 
   const clearHistory = async () => {
     console.log("Limpiando Ejecuciones...")
-    await clearByUserId('') //TODO: UserID
+    await clearByUserId(user.id)
     return [];
   }
 
   const getHistoryRecord = async () => {
-    const results: Execution[] = await getByUserId('') //TODO: UserID
+    const results: Execution[] = await getByUserId(user.id)
     const history: HistoryLap[] = results.map(result => {
       return {
         id: result.id,

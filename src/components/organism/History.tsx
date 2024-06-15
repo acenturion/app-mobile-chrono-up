@@ -6,7 +6,7 @@ import LapHistoryItemList from "@/components/molecules/HistoryLapItemList";
 import {useHistoryLap} from "@/context/HistoryLapContext";
 
 function History() {
-  const { historyLap, clearHistory } = useHistoryLap();
+  const {historyLap, clearHistory} = useHistoryLap();
 
   const handleOnPressClear = () => {
     clearHistory();
@@ -16,7 +16,11 @@ function History() {
     <View style={styles.container}>
       <View style={styles.title}>
         <Title text={"Historial"}/>
-        <Button onPress={handleOnPressClear} title={"Limpiar"} style={{backgroundColor: "red"}}/>
+        <Button
+          onPress={handleOnPressClear}
+          title={"Limpiar"}
+          style={{backgroundColor: "red"}}
+        />
       </View>
 
       <FlatList
@@ -38,7 +42,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     width: "100%",
   },
-  title:{
+  title: {
     width: "100%",
     flexDirection: "row",
     justifyContent: "space-between",

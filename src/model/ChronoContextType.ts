@@ -7,6 +7,6 @@ export interface ChronoContextType {
   chronoState: ChronoState;
   onStart: () => void,
   onPause: () => void,
-  onReset: () => void,
+  onReset: (a: string) => void,
   onLap: () => void,
 }

@@ -19,7 +19,7 @@ const ChronoContext = createContext<ChronoContextType | null>(null);
 export function useChrono(): ChronoContextType {
   const context = useContext(ChronoContext);
   if (!context) {
-    throw new Error("useRates must be used within an ChronoProvider.");
+    throw new Error("useChrono must be used within an ChronoProvider.");
   }
   return context;
 }
@@ -62,7 +62,7 @@ const ChronoProvider = ({ children }: PropsWithChildren) => {
     return () => clearInterval(interval);
   }, [timer, chronoState.isStarted]);
 
-  const onReset = () => {
+  const onReset = (userId: string) => {
     setTimer(0);
     setChronoState({
       isReset: true,
@@ -78,7 +78,7 @@ const ChronoProvider = ({ children }: PropsWithChildren) => {
         location: location
       };
 
-      saveByUserId("12345000", execution); //TODO: Replace for userId
+      saveByUserId(userId, execution); //TODO: Replace for userId
     }
     setLaps([]);
   };
