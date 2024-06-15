@@ -13,9 +13,23 @@ import { Chrono } from "@/model/Chrono";
 import {db} from "@/firebase/config";
 import { Lap } from "@/model/Lap";
 import { Location } from "@/model/Location";
+import {HistoryLap} from "@/model/HistoryLap";
 
 const COLLECTION_NAME = "history";
 const USER_ID_FIELD_NAME = "userId";
+
+interface FirebaseExecution {
+  id: string;
+  date: Timestamp,
+  laps: FirebaseLap[], //TODO: Pasar a timestamp
+  location?: Location
+}
+
+interface FirebaseLap {
+  id: string,
+  position: number,
+  moment: Timestamp,
+}
 
 export const saveByUserId = async (
   userId: string,
@@ -82,19 +96,6 @@ const clearNetworkData = async (
     throw Error();
   }
 };
-
- interface FirebaseExecution {
-  id: string;
-  date: Timestamp,
-  laps: FirebaseLap[], //TODO: Pasar a timestamp
-  location?: Location
-}
-
-interface FirebaseLap {
-  id: string,
-  position: number,
-  moment: Timestamp,
-}
 
 const getNetworkDataById = async (userId: string): Promise<Chrono> => {
   return (await getReferenceNetworkDataById(userId))?.docs.map(

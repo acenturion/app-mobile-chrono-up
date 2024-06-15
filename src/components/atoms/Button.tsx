@@ -2,7 +2,7 @@ import React from 'react';
 import {Pressable, Text, StyleSheet, StyleProp} from 'react-native';
 
 interface ButtonProps {
-  onPress: () => void;
+  onPress: (a: any) => void;
   title: string;
   style?: StyleProp<any>;
 }

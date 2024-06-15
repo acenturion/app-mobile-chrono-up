@@ -1,11 +1,19 @@
 import React from 'react';
 import {StyleSheet, Text, View} from "react-native";
-import {formatTimeOfNumber} from "@/utils/timer-utils";
+import {formatTimeOfNumber, formatTimer} from "@/utils/timer-utils";
 
-function WatchDisplay({timer}: { timer: number }) {
+interface WatchDisplayProps {
+  timer: number,
+  format?: boolean
+}
+
+function WatchDisplay({timer, format = false}: WatchDisplayProps) {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>{formatTimeOfNumber(timer)}</Text>
+      {format
+        ? (<Text style={styles.text}>{formatTimeOfNumber(timer)}</Text>)
+        : (<Text style={styles.text}>{formatTimer(timer)}</Text>)}
+
     </View>
   );
 }
@@ -13,7 +21,7 @@ function WatchDisplay({timer}: { timer: number }) {
 const styles = StyleSheet.create({
   container: {
     padding: 16,
-    height: 72*3,
+    height: 72 * 3,
     width: "100%",
     justifyContent: "center",
     alignItems: "center",

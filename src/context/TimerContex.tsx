@@ -1,5 +1,4 @@
 import {createContext, PropsWithChildren, useContext, useEffect, useState} from "react";
-import {Lap} from "@/model/Lap";
 import {TimerState} from "@/model/TimerState";
 import {TimerContextType} from "@/model/TimerContextType";
 import {Alert, Vibration} from "react-native";
@@ -28,19 +27,19 @@ const TimerProvider = ({children}: PropsWithChildren) => {
 
     if (timerState.isStarted && !timerState.isReset) {
       interval = setTimeout(() => {
-        setTimer(timer - 1);
+        if (timer === 0) {
+          Alert.alert('Reloj', 'Finalizo')
+          Vibration.vibrate(1000)
+          setTimerState({isStarted: false, isPaused: false, isReset: true});
+          return;
+        }
+        const newValue = timer - 1;
+        setTimer(newValue);
       }, 1000);
     }
     return () => clearInterval(interval);
   }, [timer, timerState.isStarted, timerState.isReset]);
 
-  useEffect(() => {
-    if (timer === 0) {
-      Alert.alert('Reloj', 'Finalizo')
-      Vibration.vibrate(1000)
-      setTimerState({isStarted: false, isPaused: false, isReset: true});
-    }
-  }, [timer])
 
   const onReset = () => {
     setTimer(TIMER_VALUE);
@@ -56,11 +55,16 @@ const TimerProvider = ({children}: PropsWithChildren) => {
   };
 
   const onStart = () => {
-    if(timer === 0){
+    if (timer === 0) {
       return onReset();
     }
     setTimerState({isStarted: true, isPaused: false, isReset: false});
   };
+
+  const onSet = (newValue: string) => {
+    const formatNumber = parseInt(newValue, 10);
+    setTimer(formatNumber)
+  }
 
   const contextValue: TimerContextType = {
     timer,
@@ -68,6 +72,7 @@ const TimerProvider = ({children}: PropsWithChildren) => {
     onStart,
     onPause,
     onReset,
+    onSet,
   }
 
   return (

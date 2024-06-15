@@ -2,16 +2,21 @@ import React from 'react';
 import {FlatList, StyleSheet, Text, View} from "react-native";
 import LapItemList from "@/components/molecules/LapItemList";
 import {formatDateTime} from "@/utils/timer-utils";
-import { Execution } from '@/model/Execution';
+import {HistoryLap} from "@/model/HistoryLap";
 
-function LapHistoryItemList({date, laps = [], location, id}: Execution) {
+function LapHistoryItemList({date, laps = [], location}: HistoryLap) {
   return (
     <View style={styles.container}>
-      {<Text style={styles.text}>{`Ejecucion ${id} - ${formatDateTime(date as Date)} - Ubicacion: [${location?.latitude} - ${location?.longitude}`}</Text>} 
+      <Text style={styles.text}>
+        Ubicacion: [{location?.latitude} {location?.longitude}]
+      </Text>
+      <Text style={styles.text}>
+        {`${formatDateTime(date as Date)}`}
+      </Text>
       <FlatList
         data={laps}
         style={styles.item}
-        renderItem={({item}) => <LapItemList {...item}/>}
+        renderItem={({item}: any) => <LapItemList {...item}/>}
         keyExtractor={(item) => JSON.stringify(item)}
       />
     </View>

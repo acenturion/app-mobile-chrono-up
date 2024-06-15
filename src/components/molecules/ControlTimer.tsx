@@ -5,18 +5,22 @@ import Button from "@/components/atoms/Button";
 interface ControlType {
   showStart: boolean,
   showReset: boolean,
+  showSet?: boolean,
   onStart: () => void,
   onPause: () => void,
   onReset: () => void,
+  onSet?: (a: number) => void,
 }
 
 function ControlTimer(
   {
     showStart,
     showReset,
+    showSet,
     onStart,
     onPause,
     onReset,
+    onSet = (a) => {},
   }: ControlType) {
   return (
     <View style={styles.container}>
@@ -37,6 +41,13 @@ function ControlTimer(
           title="Reiniciar"
           onPress={onReset}
           style={{backgroundColor: "grey"}}
+        />
+      )}
+      {showSet && (
+        <Button
+          title="Set"
+          onPress={onSet}
+          style={{backgroundColor: "blue"}}
         />
       )}
     </View>

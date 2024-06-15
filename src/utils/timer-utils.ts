@@ -4,6 +4,14 @@ export const formatTimeOfNumber = (time: number) => {
     return `${min < 10 ? "0" : ""}${min}:${seg < 10 ? "0" : ""}${seg}`
 };
 
+export const formatTimer = (time: number) => {
+    let inputString = time.toString().padStart(4, '0');
+    let seconds = inputString.slice(-2);
+    let minutes = inputString.slice(0, -2);
+    return `${minutes.padStart(2, '0')}:${seconds.padStart(2, '0')}`;
+};
+
+
 export const formatDateTime = (dateToFormat: Date) => {
     const date = new Date(dateToFormat)
     const day = date.getDate().toString().padStart(2, '0');

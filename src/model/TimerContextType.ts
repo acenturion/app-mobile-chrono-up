@@ -6,4 +6,5 @@ export interface TimerContextType {
   onStart: () => void,
   onPause: () => void,
   onReset: () => void,
+  onSet: (newValue: string) => void,
 }

@@ -1,34 +1,17 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {FlatList, StyleSheet, Text, View} from "react-native";
 import Title from "@/components/atoms/Title";
 import Button from "@/components/atoms/Button";
 import LapHistoryItemList from "@/components/molecules/HistoryLapItemList";
-import {useNavigation} from "@react-navigation/core";
-import { getByUserId, clearByUserId } from '@/services/RemoteStorage.service';
-import { Execution } from '@/model/Execution';
+import {useHistoryLap} from "@/context/HistoryLapContext";
 
 function History() {
-  const navigation = useNavigation();
-  // TODO hacer contexto historial :D
-  const [historyLap, setHistoryLap] = useState<Execution[]>([]);
-
-  useEffect(() => {
-    navigation.addListener('focus', () => {
-      getHistoryRecord();
-    });
-  }, []);
-
-  const getHistoryRecord = async () => {
-    const result: Execution[]  = await getByUserId('') //TODO: UserID
-    setHistoryLap(result)
-  }
-
+  const { historyLap, clearHistory } = useHistoryLap();
 
   const handleOnPressClear = () => {
-    console.log("Limpiando Ejecuciones...")
-    clearByUserId('') //TODO: UserID
-    getHistoryRecord();
+    clearHistory();
   }
+
   return (
     <View style={styles.container}>
       <View style={styles.title}>

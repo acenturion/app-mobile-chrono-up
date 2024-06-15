@@ -23,7 +23,10 @@ const Chronometer = () => {
 
   return (
     <View style={styles.container}>
-      <WatchDisplay timer={timer}/>
+      <WatchDisplay
+        timer={timer}
+        format
+      />
       <ControlChrono
         showStart={showStart}
         showReset={showReset}

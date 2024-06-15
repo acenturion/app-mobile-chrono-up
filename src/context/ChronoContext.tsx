@@ -24,7 +24,7 @@ export function useChrono(): ChronoContextType {
   return context;
 }
 
-const TimerProvider = ({ children }: PropsWithChildren) => {
+const ChronoProvider = ({ children }: PropsWithChildren) => {
   const [timer, setTimer] = useState<number>(0);
   const [chronoState, setChronoState] = useState<ChronoState>({
     isPaused: false,
@@ -119,4 +119,4 @@ const TimerProvider = ({ children }: PropsWithChildren) => {
   );
 };
 
-export default TimerProvider;
+export default ChronoProvider;
