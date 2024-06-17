@@ -1,5 +1,5 @@
 import React, {useRef} from "react";
-import {Keyboard, StyleSheet, TextInput, View} from "react-native";
+import {Keyboard, StyleSheet, TextInput, TouchableWithoutFeedback, View} from "react-native";
 import {useTimer} from "@/context/TimerContex";
 import WatchDisplay from "@/components/molecules/WatchDisplay";
 import ControlTimer from "@/components/molecules/ControlTimer";
@@ -25,8 +25,7 @@ const Timer = () => {
     Keyboard.dismiss()
     onStart();
   };
-
-
+  
   const handleChangeText = (text: string) => {
     if (text === ',' || text === '.') return;
     if (text.length > 4) return;

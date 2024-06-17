@@ -1,11 +1,11 @@
 import Chronometer from "@/components/organism/Cronomether";
-import ScreenLayout from "@/components/layouts/ScreenLayout";
+import TabLayout from "@/components/layouts/TabLayout";
 
 const HomeChronoScreen = () => {
   return (
-    <ScreenLayout>
+    <TabLayout>
       <Chronometer/>
-    </ScreenLayout>
+    </TabLayout>
   );
 }
 

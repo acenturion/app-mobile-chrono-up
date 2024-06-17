@@ -20,7 +20,8 @@ const UserProvider = ({children}: PropsWithChildren) => {
   const [user, setUser] = useState<User | null>(null);
 
   const logIn = async (user: AuthUser) => {
-    const result: User = await signIn(user);
+    const result: User | null = await signIn(user);
+    if (!result) console.log("No vino ningun usuario :(")
     setUser(result)
   }
 

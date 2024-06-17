@@ -1,11 +1,11 @@
-import ScreenLayout from "@/components/layouts/ScreenLayout";
+import TabLayout from "@/components/layouts/TabLayout";
 import History from "@/components/organism/History";
 
 const HistoryChronoScreen = () => {
   return (
-    <ScreenLayout>
+    <TabLayout>
       <History/>
-    </ScreenLayout>
+    </TabLayout>
   );
 }
 

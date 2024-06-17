@@ -1,11 +1,11 @@
 import Timer from "@/components/organism/Timer";
-import ScreenLayout from "@/components/layouts/ScreenLayout";
+import TabLayout from "@/components/layouts/TabLayout";
 
 const HomeTimerScreen = () => {
   return (
-    <ScreenLayout>
+    <TabLayout>
       <Timer/>
-    </ScreenLayout>
+    </TabLayout>
   );
 }
 export default HomeTimerScreen;

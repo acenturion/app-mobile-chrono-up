@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {StyleSheet, TextInput, View} from "react-native";
-import Button from "@/components/atoms/Button";
 import {AuthUser} from "@/model/AuthUser";
+import LoadingButton from "@/components/atoms/LoadingButton";
 
 interface LoginFormProps {
   onSubmit: (value: AuthUser) => void;
@@ -32,7 +32,7 @@ function LoginForm({onSubmit}: LoginFormProps) {
         onChangeText={setPassword}
         secureTextEntry
       />
-      <Button
+      <LoadingButton
         title={"Ingresar"}
         onPress={handleOnSubmit}
         style={{backgroundColor: "green"}}
