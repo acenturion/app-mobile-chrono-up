@@ -13,14 +13,11 @@ function LapItemList({position, moment}: Lap) {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 16,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-start",
   },
   text: {
     color: "#fff",
-    fontSize: 16,
+    fontSize: 18,
+    paddingBottom: 8,
   },
 });
 

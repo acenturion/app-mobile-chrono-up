@@ -23,6 +23,7 @@ export function useHistoryLap(): HistoryLapContextType {
 const HistoryLapProvider = ({children}: PropsWithChildren) => {
 
   const [historyLap, setHistoryLap] = useState<HistoryLap[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const clearHistory = async (userId: string) => {
     console.log("Limpiando Ejecuciones...")
@@ -31,10 +32,12 @@ const HistoryLapProvider = ({children}: PropsWithChildren) => {
   }
 
   const fetchHistory = async (userId: string) => {
+    setLoading(true)
     console.log("Buscando en el historial...")
     const result = await getHistoryRecord(userId);
     console.log("Listo ;)")
     setHistoryLap(result);
+    setLoading(false)
   }
 
   const getHistoryRecord = async (userId: string) => {
@@ -52,6 +55,7 @@ const HistoryLapProvider = ({children}: PropsWithChildren) => {
 
   const contextValue: HistoryLapContextType = {
     historyLap,
+    loading,
     clearHistory,
     fetchHistory,
   };

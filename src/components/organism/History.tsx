@@ -1,15 +1,20 @@
-import React, {useCallback} from 'react';
-import {FlatList, StyleSheet, Text, View} from "react-native";
+import React, {useCallback, useRef, useState} from 'react';
+import {Dimensions, FlatList, ScrollView, StyleSheet, Text, View} from "react-native";
 import Title from "@/components/atoms/Title";
 import Button from "@/components/atoms/Button";
 import LapHistoryItemList from "@/components/molecules/HistoryLapItemList";
 import {useHistoryLap} from "@/context/HistoryLapContext";
 import {useFocusEffect} from "@react-navigation/core";
 import {useUser} from "@/context/UserContext";
+import MapLocation from "@/components/organism/MapLocation";
+
 
 function History() {
-  const {historyLap, clearHistory, fetchHistory} = useHistoryLap();
+  const {width} = Dimensions.get('window');
+  const {historyLap, loading, clearHistory, fetchHistory} = useHistoryLap();
+  const [location, setLocation] = useState<any>();
   const {user} = useUser();
+
   useFocusEffect(
     useCallback(() => {
       fetchHistory(user.id);
@@ -20,10 +25,16 @@ function History() {
     clearHistory(user.id);
   }
 
+  const onViewableItemsChanged = useRef(({viewableItems}: any) => {
+    if (viewableItems.length > 0) {
+      setLocation(viewableItems[0].item.location);
+    }
+  }).current;
+
   return (
     <View style={styles.container}>
       <View style={styles.title}>
-        <Title text={""}/>
+        <Title text={"Mis vueltas"}/>
         <Button
           onPress={handleOnPressClear}
           title={"Limpiar"}
@@ -31,17 +42,32 @@ function History() {
         />
       </View>
 
-      {historyLap.length > 0
-        ? (
-          <FlatList
-            data={historyLap}
-            style={styles.list}
-            ListEmptyComponent={<Text style={{color: "white"}}>No hay vueltas para mostrar.</Text>}
-            renderItem={({item}) => <LapHistoryItemList {...item}/>}
-            keyExtractor={(item) => item.date.toString()}
-          />
+      {loading
+        ? (<Text style={{color: "white"}}>Cargando...</Text>)
+        : (
+          <>
+            {location && (
+              <MapLocation
+                longitude={location.longitude}
+                latitude={location.latitude}
+              />
+            )}
+            <ScrollView>
+              <FlatList
+                data={historyLap}
+                horizontal
+                ListEmptyComponent={<Text style={{color: "white"}}>No hay vueltas para mostrar.</Text>}
+                renderItem={({item}) => <LapHistoryItemList {...item}/>}
+                keyExtractor={(item) => item.id}
+                snapToInterval={width}
+                snapToAlignment="center"
+                decelerationRate="fast"
+                onViewableItemsChanged={onViewableItemsChanged}
+                showsHorizontalScrollIndicator={false}
+              />
+            </ScrollView>
+          </>
         )
-        : (<Text style={{color: "white"}}>Cargando...</Text>)
       }
     </View>
 
@@ -60,9 +86,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center"
-  },
-  list: {
-    width: "100%"
   },
 });
 
