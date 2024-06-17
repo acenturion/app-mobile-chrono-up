@@ -46,7 +46,7 @@ function History() {
         ? (<Text style={{color: "white"}}>Cargando...</Text>)
         : (
           <>
-            {location && (
+            {(historyLap.length > 0 && location) && (
               <MapLocation
                 longitude={location.longitude}
                 latitude={location.latitude}

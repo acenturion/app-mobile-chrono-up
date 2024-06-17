@@ -17,13 +17,20 @@ function MapLocation({latitude, longitude}: MapLocationProps) {
   }
 
   useEffect(() => {
-    setLocation({latitude, longitude})
+    const region: Region = {
+      longitude,
+      latitude,
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0421,
+    }
+    setLocation(region)
   }, [latitude])
 
   return (
     <MapView
       loadingEnabled={true}
       scrollEnabled={false}
+      region={location}
       style={{
         width: '100%',
         height: 192,
