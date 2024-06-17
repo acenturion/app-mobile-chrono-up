@@ -23,7 +23,7 @@ function History() {
   return (
     <View style={styles.container}>
       <View style={styles.title}>
-        <Title text={"Historial"}/>
+        <Title text={""}/>
         <Button
           onPress={handleOnPressClear}
           title={"Limpiar"}
