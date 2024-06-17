@@ -8,9 +8,7 @@ import {
 import {HistoryLapContextType} from "@/model/HistoryLapContextType";
 import {clearByUserId, getByUserId} from "@/services/RemoteStorage.service";
 import {HistoryLap} from "@/model/HistoryLap";
-import {useNavigation} from "@react-navigation/core";
 import {Execution} from "@/model/Execution";
-import {useUser} from "@/context/UserContext";
 
 const HistoryLapContext = createContext<HistoryLapContextType | null>(null);
 
@@ -23,28 +21,23 @@ export function useHistoryLap(): HistoryLapContextType {
 }
 
 const HistoryLapProvider = ({children}: PropsWithChildren) => {
-  const navigation = useNavigation();
-  const {user} = useUser();
+
   const [historyLap, setHistoryLap] = useState<HistoryLap[]>([]);
 
-  useEffect(() => {
-    //navigation.addListener('focus', () => {
-    const getHistory = async () => {
-      const result = await getHistoryRecord();
-      setHistoryLap(result);
-    }
-    getHistory();
-    //});
-  }, []);
-
-  const clearHistory = async () => {
+  const clearHistory = async (userId: string) => {
     console.log("Limpiando Ejecuciones...")
-    await clearByUserId(user.id)
-    return [];
+    setHistoryLap([]);
+    await clearByUserId(userId)
   }
 
-  const getHistoryRecord = async () => {
-    const results: Execution[] = await getByUserId(user.id)
+  const fetchHistory = async (userId: string) => {
+    console.log("Buscando en el historial...")
+    const result = await getHistoryRecord(userId);
+    setHistoryLap(result);
+  }
+
+  const getHistoryRecord = async (userId: string) => {
+    const results: Execution[] = await getByUserId(userId)
     const history: HistoryLap[] = results.map(result => {
       return {
         id: result.id,
@@ -56,10 +49,10 @@ const HistoryLapProvider = ({children}: PropsWithChildren) => {
     return history;
   }
 
-
   const contextValue: HistoryLapContextType = {
     historyLap,
-    clearHistory
+    clearHistory,
+    fetchHistory,
   };
 
   return (

@@ -10,9 +10,9 @@ const Timer = () => {
   const [newTimer, setNewTimer] = React.useState("");
 
   const {timer, timerState, onStart, onPause, onReset, onSet} = useTimer();
-  const showStart = timerState.isPaused || timerState.isReset;
-  const showSet = timerState.isPaused || timerState.isReset;
-  const showReset = (timerState.isPaused || timerState.isStarted) && !timerState.isReset;
+  const showStart = timerState.isPaused || timerState.isReset && !timerState.isStarted;
+  const showSet = (!timerState.isPaused || timerState.isReset) && !timerState.isStarted;
+  const showReset = (timerState.isPaused || !timerState.isStarted) && !timerState.isReset;
 
 
   const handlePressSet = () => {
@@ -28,6 +28,7 @@ const Timer = () => {
 
 
   const handleChangeText = (text: string) => {
+    if (text === ',' || text === '.') return;
     if (text.length > 4) return;
     if (text.length === 0) {
       setNewTimer("")

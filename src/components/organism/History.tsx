@@ -1,15 +1,23 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {FlatList, StyleSheet, Text, View} from "react-native";
 import Title from "@/components/atoms/Title";
 import Button from "@/components/atoms/Button";
 import LapHistoryItemList from "@/components/molecules/HistoryLapItemList";
 import {useHistoryLap} from "@/context/HistoryLapContext";
+import {useFocusEffect} from "@react-navigation/core";
+import {useUser} from "@/context/UserContext";
 
 function History() {
-  const {historyLap, clearHistory} = useHistoryLap();
+  const {historyLap, clearHistory, fetchHistory} = useHistoryLap();
+  const {user} = useUser();
+  useFocusEffect(
+    useCallback(() => {
+      fetchHistory(user.id);
+    }, [user.id])
+  );
 
   const handleOnPressClear = () => {
-    clearHistory();
+    clearHistory(user.id);
   }
 
   return (
