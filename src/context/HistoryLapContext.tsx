@@ -33,6 +33,7 @@ const HistoryLapProvider = ({children}: PropsWithChildren) => {
   const fetchHistory = async (userId: string) => {
     console.log("Buscando en el historial...")
     const result = await getHistoryRecord(userId);
+    console.log("Listo ;)")
     setHistoryLap(result);
   }
 

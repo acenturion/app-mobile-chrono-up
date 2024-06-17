@@ -31,13 +31,18 @@ function History() {
         />
       </View>
 
-      <FlatList
-        data={historyLap}
-        style={styles.list}
-        ListEmptyComponent={<Text style={{color: "white"}}>No hay vueltas para mostrar.</Text>}
-        renderItem={({item}) => <LapHistoryItemList {...item}/>}
-        keyExtractor={(item) => item.date.toString()}
-      />
+      {historyLap.length > 0
+        ? (
+          <FlatList
+            data={historyLap}
+            style={styles.list}
+            ListEmptyComponent={<Text style={{color: "white"}}>No hay vueltas para mostrar.</Text>}
+            renderItem={({item}) => <LapHistoryItemList {...item}/>}
+            keyExtractor={(item) => item.date.toString()}
+          />
+        )
+        : (<Text style={{color: "white"}}>Cargando...</Text>)
+      }
     </View>
 
   );

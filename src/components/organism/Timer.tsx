@@ -25,7 +25,7 @@ const Timer = () => {
     Keyboard.dismiss()
     onStart();
   };
-  
+
   const handleChangeText = (text: string) => {
     if (text === ',' || text === '.') return;
     if (text.length > 4) return;

@@ -8,11 +8,13 @@ interface ProfileProps {
   onLogOut: () => void,
 }
 
-function Profile({user, onLogOut} :ProfileProps) {
+function Profile({user, onLogOut}: ProfileProps) {
   return (
     <View style={styles.container}>
-      <Text style={{color: "white"}}>{user.id}</Text>
-      <Text style={{color: "white"}}>{user.email}</Text>
+      <View>
+        <Text style={styles.text}>ID: {user.id}</Text>
+        <Text style={styles.text}>Email: {user.email}</Text>
+      </View>
 
       <Button
         title={"Salir"}
@@ -26,9 +28,15 @@ function Profile({user, onLogOut} :ProfileProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%"
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
+    width: "100%",
+    gap: 16
+  },
+  text: {
+    color: '#ffffff',
+    fontSize: 18,
+    marginBottom: 10,
   },
   list: {
     width: "100%"
