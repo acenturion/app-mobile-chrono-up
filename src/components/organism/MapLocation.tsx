@@ -6,22 +6,25 @@ interface MapLocationProps {
   longitude: number,
 }
 
+const LATITUDE_DELTA: number = 0.0922
+const LONGITUDE_DELTA: number = 0.0421
+
 function MapLocation({latitude, longitude}: MapLocationProps) {
   const [location, setLocation] = useState<any>({latitude, longitude});
 
   const initialRegion: Region = {
     longitude,
     latitude,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
+    latitudeDelta: LATITUDE_DELTA,
+    longitudeDelta: LONGITUDE_DELTA,
   }
 
   useEffect(() => {
     const region: Region = {
       longitude,
       latitude,
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421,
+      latitudeDelta: LATITUDE_DELTA,
+      longitudeDelta: LONGITUDE_DELTA,
     }
     setLocation(region)
   }, [latitude])

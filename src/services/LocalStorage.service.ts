@@ -20,7 +20,7 @@ const clearLocalData = async (): Promise<void> => {
       }
       throw new Error(); //TODO: Ver que devolver
     } catch (error) {
-      console.error("Error al obtener los datos del repositorio local:", error);
+      console.error("Error on getting in local repository:", error);
       throw new Error();
     }
   };
@@ -30,9 +30,9 @@ const clearLocalData = async (): Promise<void> => {
     try {
       executions.push(execution);
       await SecureStore.setItemAsync(EXECUTIONS_KEY, JSON.stringify(executions));
-      console.log("Guardado exitosamente");
+      console.log("Save Successfully");
     } catch (error) {
-      console.error("Error al guardar los datos del repositorio local:", error);
+      console.error("Error on saving in local repository:", error);
       throw new Error();
     }
   };

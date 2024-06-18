@@ -20,7 +20,7 @@ const USER_ID_FIELD_NAME = "userId";
 interface FirebaseExecution {
   id: string;
   date: Timestamp,
-  laps: FirebaseLap[], //TODO: Pasar a timestamp
+  laps: FirebaseLap[],
   location?: Location
 }
 
@@ -49,12 +49,12 @@ export const clearByUserId = async (userId: string): Promise<void> => {
 const saveNetworkData = async (
   userId: string,
   execution: Execution
-): Promise<void> => { //TODO: En realidad aca es agregarle la ejecucion a el usuario
+): Promise<void> => {
   const querySnapshot = await getReferenceNetworkDataById(userId);
   try {
-    if (querySnapshot?.empty) { //Non exists document
+    if (querySnapshot?.empty) {
       console.log("No matching document found");
-      const collectionRef = collection(db, COLLECTION_NAME); // Referencia a la colección
+      const collectionRef = collection(db, COLLECTION_NAME); 
       await addDoc(collectionRef, {
         userId: userId,
         executions: [execution],
@@ -77,7 +77,7 @@ const saveNetworkData = async (
 
 const clearNetworkData = async (
   userId: string
-): Promise<void> => { //TODO: En realidad aca es agregarle la ejecucion a el usuario
+): Promise<void> => {
   const querySnapshot = await getReferenceNetworkDataById(userId);
   try {
     if (querySnapshot?.empty) { //Non exists document

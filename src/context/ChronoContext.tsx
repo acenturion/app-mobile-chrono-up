@@ -78,7 +78,7 @@ const ChronoProvider = ({ children }: PropsWithChildren) => {
         location: location
       };
 
-      saveByUserId(userId, execution); //TODO: Replace for userId
+      saveByUserId(userId, execution);
     }
     setLaps([]);
   };

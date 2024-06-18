@@ -2,7 +2,6 @@ import {
   createContext,
   PropsWithChildren,
   useContext,
-  useEffect,
   useState,
 } from "react";
 import {HistoryLapContextType} from "@/model/HistoryLapContextType";
@@ -26,16 +25,15 @@ const HistoryLapProvider = ({children}: PropsWithChildren) => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const clearHistory = async (userId: string) => {
-    console.log("Limpiando Ejecuciones...")
+    console.log("Clean Executions...")
     setHistoryLap([]);
     await clearByUserId(userId)
   }
 
   const fetchHistory = async (userId: string) => {
     setLoading(true)
-    console.log("Buscando en el historial...")
+    console.log("Fetch History..")
     const result = await getHistoryRecord(userId);
-    console.log("Listo ;)")
     setHistoryLap(result);
     setLoading(false)
   }
