@@ -34,6 +34,7 @@ function MapLocation({latitude, longitude}: MapLocationProps) {
       loadingEnabled={true}
       scrollEnabled={false}
       region={location}
+      zoomEnabled={false}
       style={{
         width: '100%',
         height: 192,
