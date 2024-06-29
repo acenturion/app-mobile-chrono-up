@@ -27,6 +27,7 @@ interface FirebaseExecution {
 interface FirebaseLap {
   id: string,
   position: number,
+  timer: number,
   moment: Timestamp,
 }
 
@@ -105,6 +106,7 @@ const getNetworkDataById = async (userId: string): Promise<Chrono> => {
           return {
             id: lap.id,
             position: lap.position,
+            timer: lap.timer,
             moment: new Timestamp(exec.date.seconds, exec.date.nanoseconds).toDate(),
           }
         }) ?? []

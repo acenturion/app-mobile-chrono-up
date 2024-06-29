@@ -5,14 +5,14 @@ import {
   useEffect,
   useState,
 } from "react";
-import { Lap } from "@/model/Lap";
-import { Execution } from "@/model/Execution";
-import { ChronoState } from "@/model/ChonoState";
-import { ChronoContextType } from "@/model/ChronoContextType";
+import {Lap} from "@/model/Lap";
+import {Execution} from "@/model/Execution";
+import {ChronoState} from "@/model/ChonoState";
+import {ChronoContextType} from "@/model/ChronoContextType";
 import * as Geolocation from "expo-location";
-import { Location } from "@/model/Location";
+import {Location} from "@/model/Location";
 import uuid from 'react-native-uuid';
-import { saveByUserId } from "@/services/RemoteStorage.service";
+import {saveByUserId} from "@/services/RemoteStorage.service";
 
 const ChronoContext = createContext<ChronoContextType | null>(null);
 
@@ -24,7 +24,7 @@ export function useChrono(): ChronoContextType {
   return context;
 }
 
-const ChronoProvider = ({ children }: PropsWithChildren) => {
+const ChronoProvider = ({children}: PropsWithChildren) => {
   const [timer, setTimer] = useState<number>(0);
   const [chronoState, setChronoState] = useState<ChronoState>({
     isPaused: false,
@@ -36,7 +36,7 @@ const ChronoProvider = ({ children }: PropsWithChildren) => {
 
   useEffect(() => {
     (async () => {
-      let { status } = await Geolocation.requestForegroundPermissionsAsync();
+      let {status} = await Geolocation.requestForegroundPermissionsAsync();
       if (status !== "granted") {
         console.log("Permission to access location was denied");
         return;
@@ -55,8 +55,8 @@ const ChronoProvider = ({ children }: PropsWithChildren) => {
 
     if (chronoState.isStarted) {
       interval = setInterval(() => {
-        setTimer((time) => time + 1);
-      }, 1000);
+        setTimer((time) => time + 10);
+      }, 10);
     }
 
     return () => clearInterval(interval);
@@ -69,10 +69,9 @@ const ChronoProvider = ({ children }: PropsWithChildren) => {
       isStarted: false,
       isPaused: true,
     });
-
     if (laps.length > 0) {
       const execution: Execution = {
-        id:  uuid.v4().toString(),
+        id: uuid.v4().toString(),
         date: new Date(),
         laps: laps,
         location: location
@@ -88,6 +87,7 @@ const ChronoProvider = ({ children }: PropsWithChildren) => {
     const newLap: Lap = {
       id: uuid.v4().toString(),
       position: laps.length + 1 ?? 0,
+      timer: timer,
       moment: new Date()
     }
 
@@ -95,11 +95,11 @@ const ChronoProvider = ({ children }: PropsWithChildren) => {
   };
 
   const onPause = () => {
-    setChronoState({ isPaused: true, isStarted: false, isReset: false });
+    setChronoState({isPaused: true, isStarted: false, isReset: false});
   };
 
   const onStart = () => {
-    setChronoState({ isStarted: true, isPaused: false, isReset: false });
+    setChronoState({isStarted: true, isPaused: false, isReset: false});
   };
 
   const contextValue: ChronoContextType = {

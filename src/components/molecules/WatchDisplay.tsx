@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   text: {
     color: "#fff",
     marginBottom: 16,
-    fontSize: 82,
+    fontSize: 74,
     fontWeight: "bold",
   },
 });
