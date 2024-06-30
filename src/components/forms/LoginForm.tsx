@@ -8,8 +8,8 @@ interface LoginFormProps {
 }
 
 function LoginForm({onSubmit}: LoginFormProps) {
-  const [email, setEmail] = useState<string>("ale@ale.com");
-  const [password, setPassword] = useState<string>("Test1234");
+  const [email, setEmail] = useState<string>("chris@ejemplo.com");
+  const [password, setPassword] = useState<string>("123456");
 
   const handleOnSubmit = () => {
     onSubmit({email, password});

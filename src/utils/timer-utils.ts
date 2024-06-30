@@ -4,7 +4,7 @@ export const formatTimeOfNumber = (time: number) => {
   const minutes = Math.floor((time / 1000 / 60) % 60);
   const getSeconds = `0${seconds}`.slice(-2);
   const getMinutes = `0${minutes}`.slice(-2);
-  return `${getMinutes}:${getSeconds},${getMilliseconds}`;
+  return `${getMinutes}:${getSeconds}:${getMilliseconds}`;
 };
 
 export const formatTimer = (time: number) => {
